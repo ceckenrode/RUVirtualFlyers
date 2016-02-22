@@ -1,0 +1,19 @@
+{
+  "name": "ruvirtualflyers",
+  "version": "1.0.0",
+  "description": "Rutgers Virtual Flyer. There's a lot to do / eat / see / play at Rutgers. We need an effective way to categorize it all! Your app should have a user creation / login system. It should have a way to add places for everyone to see. Only authenticated users can leave reviews and ratings. There should be a basic filter that lets users narrow down what they want to search for (only 5 star places, restaurants, etc).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceckenrode/RUVirtualFlyers.git"
+  },
+  "author": "Christian Eckenrode, Sean Conaty, Matt Parman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ceckenrode/RUVirtualFlyers/issues"
+  },
+  "homepage": "https://github.com/ceckenrode/RUVirtualFlyers#readme"
+}
