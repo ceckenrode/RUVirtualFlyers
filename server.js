@@ -10,6 +10,10 @@ var PORT = process.env.NODE_ENV || 3000;
 var passport = require('passport');
 var passportLocal = require('passport-local');
 
+
+app.use("/js", express.static("public/js"));
+app.use("/css", express.static("public/css"));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
