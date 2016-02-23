@@ -22,9 +22,8 @@ app.set('view engine','handlebars');
 
 
 app.get('/', function(req, res) {
-  res.send("Server is functioning...");
+  res.render('index');
 });
-
 
 
 app.listen(PORT, function() {
