@@ -4,7 +4,7 @@
   "description": "Rutgers Virtual Flyer. There's a lot to do / eat / see / play at Rutgers. We need an effective way to categorize it all! Your app should have a user creation / login system. It should have a way to add places for everyone to see. Only authenticated users can leave reviews and ratings. There should be a basic filter that lets users narrow down what they want to search for (only 5 star places, restaurants, etc).",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.13.0",
     "express-sessions": "^1.0.5",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
