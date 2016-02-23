@@ -6,7 +6,6 @@ var bcrypt = require('bcryptjs');
 var session = require('express-session');
 var express = require('express');
 var app = express();
-var PORT = process.env.NODE_ENV || 3000;
 var passport = require('passport');
 var passportLocal = require('passport-local');
 
