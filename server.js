@@ -88,6 +88,28 @@ var Users = connection.define ('user',{
     }
 });
 
+var Places = connection.define ('places',{
+  place : {
+    type : Sequelize.STRING,
+    unique : true,
+    allowNull: false,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  }
+});
+
+var Ratings= connection.define ('ratings',{
+  rating : {
+    type : Sequelize.STRING,
+    unique : true,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  }
+});
+
+Ratings.belongsTo(Places, {foreignKey: 'fk_places'});
+
 app.get('/',function(req,res){
   res.render('login',{msg:req.query.msg});
 });
@@ -128,7 +150,7 @@ app.get('/register', function(req, res) {
 // });
 
 
-
+// force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync({ force: true }).then(function(){
   app.listen(PORT,function(){
     console.log("Application is listening on PORT %s",PORT);
