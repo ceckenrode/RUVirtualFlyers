@@ -34,6 +34,10 @@ footer {
   color:white;
 }
 
+.middle {
+  margin: 0 auto;
+}
+
 /* Navbar Styling */
 
 .navbar-default {
