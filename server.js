@@ -134,7 +134,7 @@ app.post('/check', passport.authenticate('local', {
 }));
 
 app.get('/home', function(req, res){
-  res.send("Now the legit registered user is allowed to do stuff and this is their homepage");
+  res.render('home');
 });
 
 
