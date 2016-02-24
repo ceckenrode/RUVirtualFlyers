@@ -100,8 +100,15 @@ var Places = connection.define ('places',{
 
 var Ratings= connection.define ('ratings',{
   rating : {
-    type : Sequelize.STRING,
+    type : Sequelize.INTEGER,
     unique : true,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  },
+  userComment: {
+    type: Sequelize.STRING(65,535),
+    unique : false,
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
