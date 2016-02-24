@@ -1,0 +1,4 @@
+// tables are taken care of for now in server.js, just need to make database //
+
+
+create database rutgersLocations;
