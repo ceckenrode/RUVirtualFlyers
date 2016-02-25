@@ -13,6 +13,7 @@ var passportLocal = require('passport-local');
 
 app.use("/js", express.static("public/js"));
 app.use("/css", express.static("public/css"));
+app.use("/images", express.static("public/images"));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -22,8 +23,9 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-var connection = new Sequelize ('rutgersLocations','root');
-
+//var connection = new Sequelize ('rutgersLocations','root');
+require('dotenv').config();
+var connection = new Sequelize(process.env.JAWSDB_URL);
 app.use(bodyParser.urlencoded({
   extended :false
 }));
@@ -85,7 +87,7 @@ var Users = connection.define ('user',{
         args: [5,10],
         msg: "Your password must be between 5-10 characters"
       },
-      isUppercase: true
+      // isUppercase: true
     }
    }}, {
     hooks: {
