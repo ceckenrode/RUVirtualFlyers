@@ -80,6 +80,13 @@ var Users = connection.define ('user',{
     type:Sequelize.STRING,
     unique:false,
     allowNull:false,
+    validate: {
+      len: {
+        args: [5,10],
+        msg: "Your password must be between 5-10 characters"
+      },
+      isUppercase: true
+    }
    }}, {
     hooks: {
       beforeCreate : function(input){
