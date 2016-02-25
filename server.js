@@ -22,7 +22,7 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-var connection = new Sequelize ('rutgersLocations','root');
+var connection = new Sequelize ('rutgersLocations','root',);
 
 app.use(bodyParser.urlencoded({
   extended :false
