@@ -1,0 +1,22 @@
+{{msg}}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+    <h1>Rate it</h1>
+      <form action="/saveRating" method="post">
+        <div id="parseThese">
+          <input type="radio" name="gender" value="1"> 1 <br>
+          <input type="radio" name="gender" value="2"> 2 <br>
+          <input type="radio" name="gender" value="3"> 3 <br>
+          <input type="radio" name="gender" value="4"> 4 <br>
+          <input type="radio" name="gender" value="5"> 5
+        </div>
+        <div class="form-group">
+          <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
+        </div>
+        <button type="submit" id= "rateSub" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
