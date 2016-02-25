@@ -150,24 +150,24 @@ app.post('/check', passport.authenticate('local', {
 }));
 
 app.get('/home', function(req, res){
-  res.send("Now the legit registered user is allowed to do stuff and this is their homepage");
+  res.render("home");
 });
 
 app.get('/rate',function(req,res){
   res.render('rate',{msg:req.query.msg});
 });
 
-app.post('/saveRating',function(req,res){
-  Ratings.create(req.body).then(function(results){
-    res.redirect('/?msg=Thanks for Rating!');
-  }).catch(function(err){
-    res.redirect('/?msg='+ err.errors[0].message);
-  });
-});
+// app.post('/saveRating',function(req,res){
+//   Ratings.create(req.body).then(function(results){
+//     res.redirect('/?msg=Thanks for Rating!');
+//   }).catch(function(err){
+//     res.redirect('/?msg='+ err.errors[0].message);
+//   });
+// });
 
-app.get('/home', function(req, res){
-  res.send("Returns home");
-});
+// app.get('/home', function(req, res){
+//   res.render("home");
+// });
 
 
 
