@@ -6,7 +6,7 @@ var bcrypt = require('bcryptjs');
 var session = require('express-session');
 var express = require('express');
 var app = express();
-
+var PORT = process.env.NODE_ENV || 3000;
 var passport = require('passport');
 var passportLocal = require('passport-local');
 
@@ -22,7 +22,7 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-var connection = new Sequelize ('rutgersLocations','root',);
+var connection = new Sequelize ('rutgersLocations','root');
 
 app.use(bodyParser.urlencoded({
   extended :false
@@ -95,7 +95,7 @@ var Users = connection.define ('user',{
     }
 });
 
-var Places = connection.define ('places',{
+var Places = connection.define ('place',{
   place : {
     type : Sequelize.STRING,
     unique : true,
@@ -105,7 +105,7 @@ var Places = connection.define ('places',{
   }
 });
 
-var Ratings= connection.define ('ratings',{
+var Ratings= connection.define ('rating',{
   rating : {
     type : Sequelize.INTEGER,
     unique : true,
@@ -119,8 +119,16 @@ var Ratings= connection.define ('ratings',{
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
+  },
+    category: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: false,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
 });
+
 
 Ratings.belongsTo(Places, {foreignKey: 'fk_places'});
 
@@ -145,6 +153,23 @@ app.get('/home', function(req, res){
   res.send("Now the legit registered user is allowed to do stuff and this is their homepage");
 });
 
+app.get('/rate',function(req,res){
+  res.render('rate',{msg:req.query.msg});
+});
+
+app.post('/saveRating',function(req,res){
+  Ratings.create(req.body).then(function(results){
+    res.redirect('/?msg=Thanks for Rating!');
+  }).catch(function(err){
+    res.redirect('/?msg='+ err.errors[0].message);
+  });
+});
+
+app.get('/home', function(req, res){
+  res.send("Returns home");
+});
+
+
 
 
 // app.get('/', function(req, res) {
@@ -158,6 +183,8 @@ app.get('/index', function(req, res) {
 app.get('/register', function(req, res) {
   res.render('register');
 });
+
+
 
 // app.get('/login', function(req, res) {
 //   res.render('login');
