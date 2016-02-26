@@ -147,7 +147,7 @@ var Ratings= connection.define ('rating',{
 });
 // ends table for ratings 
 
-Ratings.belongsTo(Places, {foreignKey: 'fk_places'});
+Ratings.belongsTo(Places, {foreignKey: 'fk_place'});
 
 
 
@@ -178,13 +178,19 @@ app.get('/rate', function(req, res){
 });
 
 app.post('/rate',function(req,res){
-  Ratings.create(req.body).then(function(results){
+  Ratings.create(req.body).then(function(place){
     res.redirect('/?msg=Rated');
   }).catch(function(err){
     res.redirect('/?msg='+ err.errors[0].message);
   });
 });
 
+Places.bulkCreate([
+  {place:"Henrys"},
+  {place:"Quidoba"},
+  {place:"Quickcheck"},
+  {place:"Chipotle"}
+]);
 
 
 // app.post('/check', passport.authenticate('local', {
@@ -198,7 +204,7 @@ app.post('/rate',function(req,res){
 //   passport.authenticate('local'),
 //  function(req, res) {
 //   if(req.user.isAuthenticated()) {
-//     Places.create(req.body).then(function(res){
+//     place.create(req.body).then(function(res){
 //     res.redirect('/?msg=thanks for rating,' +req.users.username);
 //   });
 //   } else {
