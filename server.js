@@ -174,7 +174,7 @@ app.get('/home', function(req, res){
 });
 
 app.get('/rate', function(req, res){
-  res.render("rate");
+  res.render("rate", {layout:'rate'});
 });
 
 app.post('/rate',function(req,res){
@@ -184,6 +184,8 @@ app.post('/rate',function(req,res){
     res.redirect('/?msg='+ err.errors[0].message);
   });
 });
+
+
 
 // app.post('/check', passport.authenticate('local', {
 //     successRedirect: '/home',
