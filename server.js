@@ -10,6 +10,15 @@ var PORT = process.env.NODE_ENV || 3000;
 var passport = require('passport');
 var passportLocal = require('passport-local');
 
+var route = require('./routing');
+
+function ensureAuthenticated(req, res, next) {
+  if (req.user.isAuthenticated())
+    return next();
+  else
+ res.redirect('/login');
+}
+
 
 app.use("/js", express.static("public/js"));
 app.use("/css", express.static("public/css"));
@@ -70,6 +79,7 @@ passport.deserializeUser(function(id, done) {
     done(null, { id: id, name: id });
 });
 
+//table for signed up users 
 var Users = connection.define ('user',{
   username : {
     type : Sequelize.STRING,
@@ -96,7 +106,9 @@ var Users = connection.define ('user',{
       }
     }
 });
+//end table for signed up users 
 
+//table for venues 
 var Places = connection.define ('place',{
   place : {
     type : Sequelize.STRING,
@@ -106,6 +118,9 @@ var Places = connection.define ('place',{
     createdAt: 'date_of_creation'
   }
 });
+//end table for venues 
+
+//table for ratings 
 
 var Ratings= connection.define ('rating',{
   rating : {
@@ -125,18 +140,21 @@ var Ratings= connection.define ('rating',{
     category: {
     type: Sequelize.STRING,
     unique: false,
-    allowNull: false,
+    allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
   }
 });
-
+// ends table for ratings 
 
 Ratings.belongsTo(Places, {foreignKey: 'fk_places'});
+
+
 
 app.get('/',function(req,res){
   res.render('login',{msg:req.query.msg});
 });
+
 
 app.post('/save',function(req,res){
   Users.create(req.body).then(function(results){
@@ -155,9 +173,42 @@ app.get('/home', function(req, res){
   res.render("home");
 });
 
-app.get('/rate',function(req,res){
-  res.render('rate',{msg:req.query.msg});
+app.get('/rate', function(req, res){
+  res.render("rate");
 });
+
+app.post('/rate',function(req,res){
+  Ratings.create(req.body).then(function(results){
+    res.redirect('/?msg=Rated');
+  }).catch(function(err){
+    res.redirect('/?msg='+ err.errors[0].message);
+  });
+});
+
+// app.post('/check', passport.authenticate('local', {
+//     successRedirect: '/home',
+//     failureRedirect: '/?msg=Login Credentials do not work'
+// }));
+
+
+
+// app.post('/rate',
+//   passport.authenticate('local'),
+//  function(req, res) {
+//   if(req.user.isAuthenticated()) {
+//     Places.create(req.body).then(function(res){
+//     res.redirect('/?msg=thanks for rating,' +req.users.username);
+//   });
+//   } else {
+//   res.send('log in to rate');
+//   }
+// });
+
+
+
+// app.get('/account', ensureAuthenticated, function(req, res) {
+//   res.render("rate");
+// });
 
 // app.post('/saveRating',function(req,res){
 //   Ratings.create(req.body).then(function(results){
@@ -191,6 +242,11 @@ app.get('/register', function(req, res) {
 // app.get('/login', function(req, res) {
 //   res.render('login');
 // });
+
+
+
+
+
 
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
