@@ -137,6 +137,9 @@ app.post('/check', passport.authenticate('local', {
 app.get('/home', function(req, res){
   res.render('home');
 });
+app.get('/feed', function(req, res){
+  res.render('feed');
+});
 
 
 

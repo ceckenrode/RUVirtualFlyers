@@ -150,3 +150,25 @@ footer {
 .box-shadow--16dp {
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2)
 }
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #0277BD;
+    border-color: #01579B;
+}
+.btn-success {
+    color: #ffffff;
+    background-color: #4CAF50;
+    border-color: transparent;
+}
+
+.panel .panel-heading {
+  z-index: 2;
+  background-color: #0277BD;
+  border-color: #01579B;
+}
+
+.panel .panel-heading h5 {
+  color: white;
+}
