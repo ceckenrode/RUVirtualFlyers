@@ -31,7 +31,7 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-//var connection = new Sequelize ('rutgersLocations','root');
+// var connection = new Sequelize ('rutgers_locations','root');
 require('dotenv').config();
 var connection = new Sequelize(process.env.JAWSDB_URL);
 app.use(bodyParser.urlencoded({
@@ -114,13 +114,15 @@ var Places = connection.define ('place',{
     unique : true,
     allowNull: false,
     updatedAt: 'last_update',
-    createdAt: 'date_of_creation'
+    createdAt: 'date_of_creation',
+    address: 'Sequelize.STRING',
+    phoneNumber: Sequelize.INTEGER,
+    description: Sequelize.STRING(160)
   }
 });
 //end table for venues 
 
 //table for ratings 
-
 var Ratings= connection.define ('rating',{
   rating : {
     type : Sequelize.INTEGER,
@@ -144,11 +146,28 @@ var Ratings= connection.define ('rating',{
     createdAt: 'date_of_creation'
   }
 });
-// ends table for ratings 
+//end table for ratings 
 
-Ratings.belongsTo(Places, {foreignKey: 'fk_place'});
+//images paths table
+var Images = connection.define('image',{
+  imgFilePath: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  }
+});
+//end image path table 
 
 
+
+//location/id: << feed/post/id looks for req.params.id = primaryIdkey(a database item) res.render that data on this view. then()button is a post posts reviews but links it with foreign key
+//get math for average ratings 
+Ratings.belongsTo(Places);
+Images.belongsTo(Places);
+
+//Ratings.belongsTo(Places);
 
 app.get('/',function(req,res){
   res.render('login',{msg:req.query.msg});
@@ -185,12 +204,17 @@ app.post('/rate',function(req,res){
 });
 
 Places.bulkCreate([
-  {place:"Henrys"},
+  {place:'Henrys'},
   {place:"Quidoba"},
   {place:"Quickcheck"},
   {place:"Chipotle"}
 ]);
 
+Images.bulkCreate([
+  {imgFilePath: './public/images/henrysDiner.png'},
+  {imgFilePath: './public/images/quidoba.jpg'},
+  {imgFilePath: './public/images/quickcheck.jpg'}
+]);
 
 // app.post('/check', passport.authenticate('local', {
 //     successRedirect: '/home',
