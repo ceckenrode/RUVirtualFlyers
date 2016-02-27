@@ -11,7 +11,6 @@
     }
 
   ];
-  
   var template = Handlebars.compile($('#template').html());
   $('ul.places').append(data);
 })();
