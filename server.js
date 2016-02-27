@@ -22,8 +22,9 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-var connection = new Sequelize ('rutgersLocations','root');
-
+//var connection = new Sequelize ('rutgersLocations','root');
+require('dotenv').config();
+var connection = new Sequelize(process.env.JAWSDB_URL);
 app.use(bodyParser.urlencoded({
   extended :false
 }));
@@ -80,6 +81,13 @@ var Users = connection.define ('user',{
     type:Sequelize.STRING,
     unique:false,
     allowNull:false,
+    validate: {
+      len: {
+        args: [5,10],
+        msg: "Your password must be between 5-10 characters"
+      },
+      // isUppercase: true
+    }
    }}, {
     hooks: {
       beforeCreate : function(input){
@@ -88,7 +96,7 @@ var Users = connection.define ('user',{
     }
 });
 
-var Places = connection.define ('places',{
+var Places = connection.define ('place',{
   place : {
     type : Sequelize.STRING,
     unique : true,
@@ -98,7 +106,7 @@ var Places = connection.define ('places',{
   }
 });
 
-var Ratings= connection.define ('ratings',{
+var Ratings= connection.define ('rating',{
   rating : {
     type : Sequelize.INTEGER,
     unique : true,
@@ -112,8 +120,16 @@ var Ratings= connection.define ('ratings',{
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
+  },
+    category: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: false,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
 });
+
 
 Ratings.belongsTo(Places, {foreignKey: 'fk_places'});
 
@@ -135,11 +151,32 @@ app.post('/check', passport.authenticate('local', {
 }));
 
 app.get('/home', function(req, res){
+<<<<<<< HEAD
   res.render('home');
 });
 app.get('/feed', function(req, res){
   res.render('feed');
+=======
+  res.render("home");
 });
+
+app.get('/rate',function(req,res){
+  res.render('rate',{msg:req.query.msg});
+>>>>>>> master
+});
+
+// app.post('/saveRating',function(req,res){
+//   Ratings.create(req.body).then(function(results){
+//     res.redirect('/?msg=Thanks for Rating!');
+//   }).catch(function(err){
+//     res.redirect('/?msg='+ err.errors[0].message);
+//   });
+// });
+
+// app.get('/home', function(req, res){
+//   res.render("home");
+// });
+
 
 
 
@@ -154,6 +191,8 @@ app.get('/index', function(req, res) {
 app.get('/register', function(req, res) {
   res.render('register');
 });
+
+
 
 // app.get('/login', function(req, res) {
 //   res.render('login');
