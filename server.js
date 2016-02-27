@@ -31,9 +31,9 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-var connection = new Sequelize ('rutgers_locations','root');
+// var connection = new Sequelize ('rutgers_locations','root');
 require('dotenv').config();
-// var connection = new Sequelize(process.env.JAWSDB_URL);
+var connection = new Sequelize(process.env.JAWSDB_URL);
 app.use(bodyParser.urlencoded({
   extended :false
 }));
@@ -162,7 +162,7 @@ var Images = connection.define('image',{
 
 
 
-//location/id: << feed/post/id looks for req.prams.id = primaryIdkey(a database item) res.render that data on this view. then()button is a post posts reviews but links it with foreign key
+//location/id: << feed/post/id looks for req.params.id = primaryIdkey(a database item) res.render that data on this view. then()button is a post posts reviews but links it with foreign key
 //get math for average ratings 
 Ratings.belongsTo(Places);
 Images.belongsTo(Places);
