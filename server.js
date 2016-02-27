@@ -85,11 +85,9 @@ var Users = connection.define ('user',{
         args: [5,10],
         msg: "Your password must be between 5-10 characters"
       },
-<<<<<<< HEAD
+
       // isUppercase: true
-=======
-      isUppercase: true
->>>>>>> cf1a0370f869fccfbac7c37e1c1b95a7e0a7218f
+
     }
    }}, {
     hooks: {
@@ -154,25 +152,14 @@ app.post('/check', passport.authenticate('local', {
 }));
 
 app.get('/home', function(req, res){
-<<<<<<< HEAD
-<<<<<<< HEAD
   res.render('home');
-=======
-  res.render("home");
->>>>>>> cf1a0370f869fccfbac7c37e1c1b95a7e0a7218f
 });
 app.get('/feed', function(req, res){
   res.render('feed');
-=======
-  res.render("home");
 });
 
 app.get('/rate',function(req,res){
   res.render('rate',{msg:req.query.msg});
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> cf1a0370f869fccfbac7c37e1c1b95a7e0a7218f
 });
 
 // app.post('/saveRating',function(req,res){
