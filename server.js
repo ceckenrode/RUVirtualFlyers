@@ -135,7 +135,7 @@ var Ratings= connection.define ('rating',{
 Ratings.belongsTo(Places, {foreignKey: 'fk_places'});
 
 app.get('/',function(req,res){
-  res.render('login',{msg:req.query.msg});
+  res.render('home',{msg:req.query.msg});
 });
 
 app.post('/save',function(req,res){
