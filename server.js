@@ -186,7 +186,7 @@ app.post('/rate',function(req,res){
 });
 
 Places.bulkCreate([
-  {place:"Henrys"},
+  {place:'Henrys'},
   {place:"Quidoba"},
   {place:"Quickcheck"},
   {place:"Chipotle"}
