@@ -12,6 +12,7 @@ var passportLocal = require('passport-local');
 
 app.use("/js", express.static("public/js"));
 app.use("/css", express.static("public/css"));
+app.use("/images", express.static("public/images"));
 
 app.use(passport.initialize());
 app.use(passport.session());
