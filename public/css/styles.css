@@ -14,10 +14,11 @@ body {
   text-align: center;
   background-color: #E65100;
   color: white;
+  background-image: url('../images/soosh.jpg');
 }
 
 .jumbotron h1 {
-  color: white;
+  
 }
 
 footer {
@@ -171,4 +172,5 @@ footer {
 
 .panel .panel-heading h5 {
   color: white;
+  text-align: center;
 }
