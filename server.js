@@ -148,7 +148,7 @@ app.post('/save',function(req,res){
 });
 
 app.post('/check', passport.authenticate('local', {
-    successRedirect: '/home',
+    successRedirect: '/feed',
     failureRedirect: '/?msg=Login Credentials do not work'
 }));
 
