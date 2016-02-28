@@ -203,18 +203,18 @@ app.post('/rate',function(req,res){
   });
 });
 
-// Places.bulkCreate([
-//   {place:'Henrys'},
-//   {place:"Quidoba"},
-//   {place:"Quickcheck"},
-//   {place:"Chipotle"}
-// ]);
+Places.bulkCreate([
+  {place:'Henrys'},
+  {place:"Quidoba"},
+  {place:"Quickcheck"},
+  {place:"Chipotle"}
+]);
 
-// Images.bulkCreate([
-//   {imgFilePath: './public/images/henrysDiner.png'},
-//   {imgFilePath: './public/images/quidoba.jpg'},
-//   {imgFilePath: './public/images/quickcheck.jpg'}
-// ]);
+Images.bulkCreate([
+  {imgFilePath: './public/images/henrysDiner.png'},
+  {imgFilePath: './public/images/quidoba.jpg'},
+  {imgFilePath: './public/images/quickcheck.jpg'}
+]);
 
 // app.post('/check', passport.authenticate('local', {
 //     successRedirect: '/home',
