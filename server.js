@@ -213,6 +213,7 @@ Places.bulkCreate([
 Images.bulkCreate([
   {imgFilePath: './public/images/henrysDiner.png'},
   {imgFilePath: './public/images/quidoba.jpg'},
+  {imgFilePath: './public/images/quickcheck.jpg'},
   {imgFilePath: './public/images/quickcheck.jpg'}
 ]);
 
