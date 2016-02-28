@@ -198,7 +198,7 @@ app.get('/register', function(req, res) {
 
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
-connection.sync({ force: true }).then(function(){
+connection.sync().then(function(){
   app.listen(PORT,function(){
     console.log("Application is listening on PORT %s",PORT);
   });
