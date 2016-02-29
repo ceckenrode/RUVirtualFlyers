@@ -21,8 +21,11 @@ body {
 }
 
 footer {
-  background-color: #4DB6AC;
+  background-color: #336562;
   text-align: center;
+}
+.newPlace {
+  float: right;
 }
 
 .footer {
@@ -30,8 +33,10 @@ footer {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 280px;
+  height: 320px;
   color:white;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 .middle {
@@ -162,11 +167,15 @@ footer {
     background-color: #4CAF50;
     border-color: transparent;
 }
-
+.panel-body img {
+  margin-left: auto;
+  margin-right: auto;
+}
 .panel .panel-heading {
   z-index: 2;
   background-color: #0277BD;
   border-color: #01579B;
+  text-align: center;
 }
 
 .panel .panel-heading h5 {
