@@ -190,6 +190,11 @@ app.get('/register', function(req, res) {
   res.render('register');
 });
 
+app.get('/location', function(req, res) {
+  res.render('location');
+});
+
+
 
 
 // app.get('/login', function(req, res) {
