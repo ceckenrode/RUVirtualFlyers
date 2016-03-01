@@ -102,17 +102,36 @@ var Users = connection.define('user', {
     }
 });
 
-var Places = connection.define ('place',{
-  place : {
-    type : Sequelize.STRING,
-    unique : true,
-    allowNull: false,
-    updatedAt: 'last_update',
-    createdAt: 'date_of_creation',
-    address: 'Sequelize.STRING',
-    phoneNumber: Sequelize.INTEGER,
-    description: Sequelize.STRING(160)
-  }
+ var Places = connection.define ('place',{    
+    place : {      
+      type : Sequelize.STRING,          
+      unique : true,          
+      allowNull: false,         
+      updatedAt: 'last_update',         
+     createdAt: 'date_of_creation'    
+   },        
+   address: {           
+     type: Sequelize.STRING,        
+     unique : true,    
+     allowNull: true,    
+     updatedAt: 'last_update',   
+     createdAt: 'date_of_creation'   
+   },    
+   phoneNumber:{   
+     type: Sequelize.INTEGER,    
+     unique : true,    
+     allowNull: true,    
+     updatedAt: 'last_update',   
+     createdAt: 'date_of_creation'   
+   },    
+         
+   description:{     
+     type: Sequelize.STRING(160),    
+     unique : false,   
+     allowNull: true,    
+     updatedAt: 'last_update',   
+     createdAt: 'date_of_creation'   
+    }    
 });
 
 var Ratings = connection.define('rating', {
@@ -195,8 +214,10 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/location', function(req, res) {
-    res.render('location');
+app.get('/location',function(req,res){
+  Places.findAll({}).then(function(results){
+    res.render('places',{results});
+  });
 });
 
 
