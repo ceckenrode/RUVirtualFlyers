@@ -102,14 +102,17 @@ var Users = connection.define('user', {
     }
 });
 
-var Places = connection.define('place', {
-    place: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-        updatedAt: 'last_update',
-        createdAt: 'date_of_creation'
-    }
+var Places = connection.define ('place',{
+  place : {
+    type : Sequelize.STRING,
+    unique : true,
+    allowNull: false,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation',
+    address: 'Sequelize.STRING',
+    phoneNumber: Sequelize.INTEGER,
+    description: Sequelize.STRING(160)
+  }
 });
 
 var Ratings = connection.define('rating', {
@@ -165,6 +168,15 @@ app.get('/feed', function(req, res) {
 
 app.get('/rate', function(req, res) {
     res.render('rate', { msg: req.query.msg, user: req.user });
+
+app.post('/rate',function(req,res){
+  Ratings.create(req.body).then(function(place){
+    res.redirect('/?msg=Rated');
+  }).catch(function(err){
+    res.redirect('/?msg='+ err.errors[0].message);
+  });
+});
+
 });
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });

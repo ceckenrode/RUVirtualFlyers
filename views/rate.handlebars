@@ -4,19 +4,31 @@
   <div class="row">
     <div class="col-md-5">
     <h1>Rate it</h1>
-      <form action="/saveRating" method="post">
-        <div id="parseThese">
-          <input type="radio" name="gender" value="1"> 1 <br>
-          <input type="radio" name="gender" value="2"> 2 <br>
-          <input type="radio" name="gender" value="3"> 3 <br>
-          <input type="radio" name="gender" value="4"> 4 <br>
-          <input type="radio" name="gender" value="5"> 5
-        </div>
+      <ul class= 'places'>
+        {{#each place}}
+        <li> 
+          <p> {{name}} </p>
+          <p> {{category}} </p>
+        </li>
+      </ul>
+        {{/each}}
+      <form action="/rate" method="post">
+       <span class="star-rating">
+        <input type="radio" name="rating" value="1"><i></i>
+        <input type="radio" name="rating" value="2"><i></i>
+        <input type="radio" name="rating" value="3"><i></i>
+        <input type="radio" name="rating" value="4"><i></i>
+        <input type="radio" name="rating" value="5"><i></i>
+      </span>
+        <strong class="choice">Choose a rating</strong>
         <div class="form-group">
           <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
         </div>
         <button type="submit" id= "rateSub" class="btn btn-default">Submit</button>
       </form>
+          <input type="file" onchange="previewFile()"><br>
+          <img src="" height="200" alt="Image preview...">
     </div>
   </div>
 </div>
+
