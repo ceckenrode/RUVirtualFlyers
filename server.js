@@ -199,7 +199,7 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/location', function(req, res) {
+app.get('/location/:id', function(req, res) {
   res.render('location');
 });
 
