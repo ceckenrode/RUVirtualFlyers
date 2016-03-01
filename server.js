@@ -170,25 +170,6 @@ app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
 
-// app.post('/saveRating',function(req,res){
-//   Ratings.create(req.body).then(function(results){
-//     res.redirect('/?msg=Thanks for Rating!');
-//   }).catch(function(err){
-//     res.redirect('/?msg='+ err.errors[0].message);
-//   });
-// });
-
-// app.get('/home', function(req, res){
-//   res.render("home");
-// });
-
-
-
-
-// app.get('/', function(req, res) {
-//   res.render('home');
-// });
-
 app.get('/index', function(req, res) {
     res.render('index');
 });
@@ -197,22 +178,19 @@ app.get('/register', function(req, res) {
     res.render('register');
 });
 
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 
 app.get('/location', function(req, res) {
-  res.render('location');
+    res.render('location');
 });
 
 
-
-
-// app.get('/login', function(req, res) {
-//   res.render('login');
-// });
-
+app.post('/submitlocation', function(req, res) {
+    res.redirect('/feed');
+});
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
