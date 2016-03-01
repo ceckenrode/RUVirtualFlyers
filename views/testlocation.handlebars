@@ -1,0 +1,21 @@
+<h1>Places</h1>
+<div class="col-md-5">
+  <table class="table table-bordered">
+    {{#each results}}
+    <tr>
+      <td>
+        {{place}}
+      </td>
+      <td>
+        {{address}}
+      </td>
+       <td>
+        {{phoneNumber}}
+      </td>
+       <td>
+        {{description}}
+      </td>
+    </tr>
+    {{/each}}
+  </table>
+</div>
