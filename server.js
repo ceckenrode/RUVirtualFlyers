@@ -140,7 +140,7 @@ var Ratings = connection.define('rating', {
 Ratings.belongsTo(Places, { foreignKey: 'fk_places' });
 
 app.get('/', function(req, res) {
-    res.render('home', { msg: req.query.msg });
+    res.render('home', { msg: req.query.msg, user: req.user });
 });
 
 app.post('/save', function(req, res) {
@@ -164,7 +164,10 @@ app.get('/feed', function(req, res) {
 });
 
 app.get('/rate', function(req, res) {
-    res.render('rate', { msg: req.query.msg });
+    res.render('rate', { msg: req.query.msg, user: req.user });
+});
+app.get('/submitlocation', function(req, res) {
+    res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
 
 // app.post('/saveRating',function(req,res){
