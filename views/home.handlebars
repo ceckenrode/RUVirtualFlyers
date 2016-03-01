@@ -7,21 +7,40 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">RU Virtual Flyers</a>
+          <a class="navbar-brand" href="#">{{#if user}} Welcome {{user.name}}!{{else}}RU Virtual Flyers{{/if}}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
+        {{#if user}}
         <li class="active"><a href="#">Submit a Location<span class="sr-only">(current)</span></a></li>
+        {{/if}}
         </ul>
+         {{#if user}}
           <form class="navbar-form navbar-right" method="post" action="/check">
+           
+            
+            <button href="/logout" class="btn btn-danger">Sign out</button>
+            
+          
+          
+          
+          </form>
+          {{else}}
+            <form class="navbar-form navbar-right" method="post" action="/check">
             <div class="form-group">
               <input type="text" placeholder="Username" class="form-control" name="username">
             </div>
+  
+            
             <div class="form-group">
               <input type="password" placeholder="Password" class="form-control" name="password">
             </div>
+            
             <button type="submit" class="btn btn-success">Sign in</button>
+          
+          
           </form>
+          {{/if}}
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
@@ -36,13 +55,16 @@
         <img class ="img-responsive middle" src="/images/cityday.svg">
         <br />
         <p><strong>Rutgers Virtual Flyers connects you with new local businesses in the Rutgers Area</strong></p>
+        {{#if user}}
+        {{else}}
         <p><a class="btn btn-primary btn-lg signup" data-toggle="modal" data-target="#myModal" role="button">Sign Up Now&raquo;</a></p>
+        {{/if}}
       </div>
     </div>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Food</h5>
@@ -52,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Nightlife</h5>
@@ -62,7 +84,7 @@
             </div>
           </div>
        </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Restaurants</h5>
@@ -72,7 +94,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Shopping</h5>
@@ -84,7 +106,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Active Life</h5>
@@ -94,7 +116,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Arts & Entertainment</h5>
@@ -104,7 +126,7 @@
             </div>
           </div>
        </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Automotive</h5>
@@ -114,7 +136,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Beauty & Spas</h5>
@@ -126,7 +148,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Education</h5>
@@ -136,7 +158,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Event Planning & Services</h5>
@@ -146,7 +168,7 @@
             </div>
           </div>
        </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Health & Medical</h5>
@@ -156,7 +178,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
           <div class="panel panel-default box-shadow--4dp">
             <div class="panel-heading">
               <h5>Home Services</h5>

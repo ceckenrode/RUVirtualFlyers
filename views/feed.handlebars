@@ -7,21 +7,40 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">RU Virtual Flyers</a>
+          <a class="navbar-brand" href="#">{{#if user}} Welcome {{user.name}}!{{else}}RU Virtual Flyers{{/if}}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
+        {{#if user}}
         <li class="active"><a data-toggle="modal" data-target="#myModalSubmit">Submit a Location<span class="sr-only">(current)</span></a></li>
+        {{/if}}
         </ul>
+        {{#if user}}
           <form class="navbar-form navbar-right" method="post" action="/check">
+           
+            
+            <button href="/logout" class="btn btn-danger">Sign out</button>
+            
+          
+          
+          
+          </form>
+          {{else}}
+            <form class="navbar-form navbar-right" method="post" action="/check">
             <div class="form-group">
               <input type="text" placeholder="Username" class="form-control" name="username">
             </div>
+  
+            
             <div class="form-group">
               <input type="password" placeholder="Password" class="form-control" name="password">
             </div>
+            
             <button type="submit" class="btn btn-success">Sign in</button>
+          
+          
           </form>
+          {{/if}}
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
@@ -33,7 +52,10 @@
         <img class ="img-responsive middle" src="/images/cityday.svg">
         <br />
         <p class="animated fadeIn"><strong>Rutgers Virtual Flyers connects you with new local businesses in the Rutgers Area</strong></p>
+        {{#if user}}
+        {{else}}
         <p><a class="btn btn-primary btn-lg signup" data-toggle="modal" data-target="#myModal" role="button">Sign Up Now&raquo;</a></p>
+        {{/if}}
       </div>
     </div>
 
