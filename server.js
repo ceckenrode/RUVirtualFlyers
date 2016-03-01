@@ -31,9 +31,9 @@ app.engine('handlebars', expressHandlebars({
 }));
 app.set('view engine', 'handlebars');
 
-// var connection = new Sequelize ('rutgers_locations','root');
+var connection = new Sequelize ('rutgers_locations','root');
 require('dotenv').config();
-var connection = new Sequelize(process.env.JAWSDB_URL);
+// var connection = new Sequelize(process.env.JAWSDB_URL);
 app.use(bodyParser.urlencoded({
   extended :false
 }));
@@ -114,10 +114,29 @@ var Places = connection.define ('place',{
     unique : true,
     allowNull: false,
     updatedAt: 'last_update',
-    createdAt: 'date_of_creation',
-    address: 'Sequelize.STRING',
-    phoneNumber: Sequelize.INTEGER,
-    description: Sequelize.STRING(160)
+    createdAt: 'date_of_creation'
+  },
+  address: {  
+    type: Sequelize.STRING,
+    unique : true,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  },
+  phoneNumber:{
+    type: Sequelize.INTEGER,
+    unique : true,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  },
+    
+  description:{ 
+    type: Sequelize.STRING(160),
+    unique : false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
 });
 //end table for venues 
@@ -203,19 +222,19 @@ app.post('/rate',function(req,res){
   });
 });
 
-Places.bulkCreate([
-  {place:'Henrys'},
-  {place:"Quidoba"},
-  {place:"Quickcheck"},
-  {place:"Chipotle"}
-]);
+// Places.bulkCreate([
+//   {place:'Henrys'},
+//   {place:"Quidoba"},
+//   {place:"Quickcheck"},
+//   {place:"Chipotle"}
+// ]);
 
-Images.bulkCreate([
-  {imgFilePath: './public/images/henrysDiner.png'},
-  {imgFilePath: './public/images/quidoba.jpg'},
-  {imgFilePath: './public/images/quickcheck.jpg'},
-  {imgFilePath: './public/images/quickcheck.jpg'}
-]);
+// Images.bulkCreate([
+//   {imgFilePath: './public/images/henrysDiner.png'},
+//   {imgFilePath: './public/images/quidoba.jpg'},
+//   {imgFilePath: './public/images/quickcheck.jpg'},
+//   {imgFilePath: './public/images/quickcheck.jpg'}
+// ]);
 
 // app.post('/check', passport.authenticate('local', {
 //     successRedirect: '/home',
@@ -282,8 +301,9 @@ app.get('/register', function(req, res) {
 
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
-connection.sync({ force: true }).then(function(){
+connection.sync({force:true}).then(function(){
   app.listen(PORT,function(){
     console.log("Application is listening on PORT %s",PORT);
   });
 });
+
