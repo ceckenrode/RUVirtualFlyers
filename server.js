@@ -158,8 +158,19 @@ var Ratings = connection.define('rating', {
     }
 });
 
+var Images = connection.define('image',{
+  imgFilePath: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  }
+});
 
-Ratings.belongsTo(Places, { foreignKey: 'fk_places' });
+
+Ratings.belongsTo(Places);
+Images.belongsTo(Places);
 
 app.get('/', function(req, res) {
     res.render('home', { msg: req.query.msg, user: req.user });
@@ -199,7 +210,9 @@ app.post('/rate',function(req,res){
 });
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
+    console.log(req.body.name);
 });
+
 
 app.get('/index', function(req, res) {
     res.render('index');
@@ -214,29 +227,33 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-// app.get('/location',function(req,res){
-//   Places.findAll({}).then(function(results){
-//     res.render('testlocation',{results});
-//   });
-// });
-
-
 app.post('/submitlocation', function(req, res) {
-    res.redirect('/feed');
+        Places.create({
+          place: req.body.name,
+          address: req.body.address,
+          phoneNumber: req.body.phone,
+          description: req.body.description}).then(function(x){
+            res.redirect('/feed');
+       }).catch(function(err){
+         res.redirect('/?msg='+ err.errors[0].message);
+  });
 });
 
-Places.bulkCreate([
-  {place:'Henrys', address: "123 idk blvd" , phoneNumber: 8888, description: "some place u can get food"},
-  {place:"Quidoba", address: "124 idk blvd" , phoneNumber: 888878, description: "some place u can get food"},
-  {place:"Quickcheck", address: "125 idk blvd" , phoneNumber: 8888868, description: "some place u can get food"},
-  {place:"Chipotle", address: "129 idk blvd" , phoneNumber: 884, description: "some place u can get food"}
-]).then(function() {
-        app.get('/location',function(req,res){
-          Places.findAll({}).then(function(results){
-            res.render('testlocation',{results});
-          });
-        });
-    });
+    
+
+
+// Places.bulkCreate([
+//   {place:'Henrys', address: "123 idk blvd" , phoneNumber: 8888, description: "some place u can get food"},
+//   {place:"Quidoba", address: "124 idk blvd" , phoneNumber: 888878, description: "some place u can get food"},
+//   {place:"Quickcheck", address: "125 idk blvd" , phoneNumber: 8888868, description: "some place u can get food"},
+//   {place:"Chipotle", address: "129 idk blvd" , phoneNumber: 884, description: "some place u can get food"}
+// ]).then(function() {
+//         app.get('/location',function(req,res){
+//           Places.findAll({}).then(function(results){
+//             res.render('testlocation',{results});
+//           });
+//         });
+//     });
 
 
 
