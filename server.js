@@ -102,17 +102,36 @@ var Users = connection.define('user', {
     }
 });
 
-var Places = connection.define ('place',{
-  place : {
-    type : Sequelize.STRING,
-    unique : true,
-    allowNull: false,
-    updatedAt: 'last_update',
-    createdAt: 'date_of_creation',
-    address: 'Sequelize.STRING',
-    phoneNumber: Sequelize.INTEGER,
-    description: Sequelize.STRING(160)
-  }
+var Places = connection.define ('place',{    
+    place : {      
+      type : Sequelize.STRING,          
+      unique : true,          
+      allowNull: true,         
+      updatedAt: 'last_update',         
+     createdAt: 'date_of_creation'    
+   },        
+   address: {           
+     type: Sequelize.STRING,        
+     unique : true,    
+     allowNull: true,    
+     updatedAt: 'last_update',   
+     createdAt: 'date_of_creation'   
+   },    
+   phoneNumber:{   
+     type: Sequelize.INTEGER,    
+     unique : true,    
+     allowNull: true,    
+     updatedAt: 'last_update',   
+     createdAt: 'date_of_creation'   
+   },    
+         
+   description:{     
+     type: Sequelize.STRING(160),    
+     unique : false,   
+     allowNull: true,    
+     updatedAt: 'last_update',   
+     createdAt: 'date_of_creation'   
+    }    
 });
 
 var Ratings = connection.define('rating', {
@@ -139,8 +158,19 @@ var Ratings = connection.define('rating', {
     }
 });
 
+var Images = connection.define('image',{
+  imgFilePath: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  }
+});
 
-Ratings.belongsTo(Places, { foreignKey: 'fk_places' });
+
+Ratings.belongsTo(Places);
+Images.belongsTo(Places);
 
 app.get('/', function(req, res) {
     res.render('home', { msg: req.query.msg, user: req.user });
@@ -180,6 +210,18 @@ app.post('/rate',function(req,res){
 });
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
+});
+
+app.post('/submitlocation', function(req, res) {
+        Places.create({
+          place: req.body.name,
+          address: req.body.address,
+          phoneNumber: req.body.phone,
+          description: req.body.description}).then(function(x){
+            res.redirect('/feed');
+       }).catch(function(err){
+         res.redirect('/?msg='+ err.errors[0].message);
+  });
 });
 
 app.get('/index', function(req, res) {
