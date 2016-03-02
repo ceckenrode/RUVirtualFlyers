@@ -217,7 +217,7 @@ app.post('/submitlocation', function(req, res) {
           place: req.body.name,
           address: req.body.address,
           phoneNumber: req.body.phone,
-          description: req.body.description}).then(function(x){
+          description: req.body.description}).then(Images.create(req.body.image)).then(function(x){
             res.redirect('/feed');
        }).catch(function(err){
          res.redirect('/?msg='+ err.errors[0].message);
