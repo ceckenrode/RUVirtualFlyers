@@ -8,15 +8,28 @@ var express = require('express');
 var app = express();
 var passport = require('passport');
 var passportLocal = require('passport-local');
+
+
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './public/uploads/')
     },
     filename: function(req, file, cb) {
-        cb(null, "image" + (Places.count()._bitField + 1) + "." + (file.mimetype).split('/')[1])
+        var num;
+            Places.findAndCountAll().then(function(result) {
+                num = result.count + 1;
+            }).then(function(){
+                cb(null, "image" + num + "." + (file.mimetype).split('/')[1])
+            })
+
+        
     }
 })
+
+
+
+
 var upload = multer({
     limits: { fileSize: 4000000, files: 1 },
     storage: storage
@@ -126,14 +139,14 @@ var Places = connection.define('place', {
     },
     address: {
         type: Sequelize.STRING,
-        unique: true,
+        unique: false,
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
     },
     phoneNumber: {
-        type: Sequelize.INTEGER,
-        unique: true,
+        type: Sequelize.STRING,
+        unique: false,
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
@@ -148,7 +161,7 @@ var Places = connection.define('place', {
     },
     image: {
         type: Sequelize.STRING,
-        unique: true,
+        unique: false,
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
