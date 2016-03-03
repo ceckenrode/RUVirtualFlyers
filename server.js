@@ -8,6 +8,20 @@ var express = require('express');
 var app = express();
 var passport = require('passport');
 var passportLocal = require('passport-local');
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './public/uploads/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, "image" + (Places.count()._bitField + 1) + "." + (file.mimetype).split('/')[1])
+    }
+})
+var upload = multer({
+    limits: { fileSize: 4000000, files: 1 },
+    storage: storage
+});
+var uploadd = multer().single('image')
 
 app.use(session({
     secret: 'quackbird noodletown',
@@ -102,36 +116,43 @@ var Users = connection.define('user', {
     }
 });
 
-var Places = connection.define ('place',{    
-    place : {      
-      type : Sequelize.STRING,          
-      unique : true,          
-      allowNull: true,         
-      updatedAt: 'last_update',         
-     createdAt: 'date_of_creation'    
-   },        
-   address: {           
-     type: Sequelize.STRING,        
-     unique : true,    
-     allowNull: true,    
-     updatedAt: 'last_update',   
-     createdAt: 'date_of_creation'   
-   },    
-   phoneNumber:{   
-     type: Sequelize.INTEGER,    
-     unique : true,    
-     allowNull: true,    
-     updatedAt: 'last_update',   
-     createdAt: 'date_of_creation'   
-   },    
-         
-   description:{     
-     type: Sequelize.STRING(160),    
-     unique : false,   
-     allowNull: true,    
-     updatedAt: 'last_update',   
-     createdAt: 'date_of_creation'   
-    }    
+var Places = connection.define('place', {
+    place: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    },
+    address: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    },
+    phoneNumber: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    },
+
+    description: {
+        type: Sequelize.STRING(160),
+        unique: false,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    },
+    image: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    }
 });
 
 var Ratings = connection.define('rating', {
@@ -158,14 +179,14 @@ var Ratings = connection.define('rating', {
     }
 });
 
-var Images = connection.define('image',{
-  imgFilePath: {
-    type: Sequelize.STRING,
-    unique: false,
-    allowNull: true,
-    updatedAt: 'last_update',
-    createdAt: 'date_of_creation'
-  }
+var Images = connection.define('image', {
+    imgFilePath: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    }
 });
 
 
@@ -199,29 +220,36 @@ app.get('/feed', function(req, res) {
 app.get('/rate', function(req, res) {
     res.render('rate', { msg: req.query.msg, user: req.user });
 
-app.post('/rate',function(req,res){
-  Ratings.create(req.body).then(function(place){
-    res.redirect('/?msg=Rated');
-  }).catch(function(err){
-    res.redirect('/?msg='+ err.errors[0].message);
-  });
-});
+    app.post('/rate', function(req, res) {
+        Ratings.create(req.body).then(function(place) {
+            res.redirect('/?msg=Rated');
+        }).catch(function(err) {
+            res.redirect('/?msg=' + err.errors[0].message);
+        });
+    });
 
 });
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
 
-app.post('/submitlocation', function(req, res) {
-        Places.create({
-          place: req.body.name,
-          address: req.body.address,
-          phoneNumber: req.body.phone,
-          description: req.body.description}).then(Images.create(req.body.image)).then(function(x){
-            res.redirect('/feed');
-       }).catch(function(err){
-         res.redirect('/?msg='+ err.errors[0].message);
-  });
+app.post('/submitlocation', upload.single('image'), function(req, res) {
+    var imgpath = req.file.path;
+    var newurl = [];
+    for (var i = 7; i < imgpath.length; ++i) {
+        newurl.push(imgpath[i]);
+    }
+    newurl = newurl.join('');
+
+    Places.create({
+        place: req.body.name,
+        address: req.body.address,
+        phoneNumber: req.body.phone,
+        description: req.body.description,
+        image: newurl
+    }).then(function() {
+        res.redirect('/feed');
+    });
 });
 
 app.get('/index', function(req, res) {
@@ -237,15 +265,25 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
+app.get('/imgtest', function(req, res) {
+    res.render('imgtest');
+});
+app.post('/submitlocal', upload.single('image'), function(req, res, next) {
+    var imgpath = req.file.path;
+    var newurl = [];
+    for (var i = 7; i < imgpath.length; ++i) {
+        newurl.push(imgpath[i]);
+    }
+    newurl = newurl.join('');
+    console.log(newurl);
+
+    res.redirect('/');
+});
+
 app.get('/location/:id', function(req, res) {
-  res.render('location');
-
+    res.render('location');
 });
 
-
-app.post('/submitlocation', function(req, res) {
-    res.redirect('/feed');
-});
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
