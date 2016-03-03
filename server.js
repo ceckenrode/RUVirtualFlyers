@@ -178,7 +178,7 @@ app.get('/', function(req, res) {
 
 app.post('/save', function(req, res) {
     Users.create(req.body).then(function(results) {
-        res.redirect('/signedIn');
+        res.redirect('/registered');
     }).catch(function(err) {
         res.redirect('/?msg=' + err.errors[0].message);
     });
@@ -196,8 +196,8 @@ app.get('/feed', function(req, res) {
     res.render('feed', { user: req.user });
 });
 
-app.get('/signedIn', function(req, res) {
-    res.render('signedIn', { user: req.user });
+app.get('/registered', function(req, res) {
+    res.render('registered', { user: req.user });
 });
 
 app.get('/rate', function(req, res) {
