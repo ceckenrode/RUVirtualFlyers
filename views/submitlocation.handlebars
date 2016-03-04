@@ -55,6 +55,7 @@
                     <label for="locationName">Location Name</label>
                     <input type="text" class="form-control" id="locationName" placeholder="Location Name" name="name">
                 </div>
+                
                 <div class="form-group">
                     <label for="locationAddress">Address</label>
                     <input type="text" class="form-control" id="locationAddress" placeholder="Address" name="address">
@@ -66,6 +67,29 @@
                 <div class="form-group">
                     <label for="locationDescription">Enter a Description</label>
                     <textarea maxlength="200" class="form-control" rows="5" id="locationDescription" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                <label for="locationCategory">Category</label>
+                <input type="hidden" name="category" id="category">
+                    <div class="dropdown category">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Category
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Food</a></li>
+                            <li><a href="#">Nightlife</a></li>
+                            <li><a href="#">Restaurants</a></li>
+                            <li><a href="#">Shopping</a></li>
+                            <li><a href="#">Active Life</a></li>
+                            <li><a href="#">Arts & Entertainment</a></li>
+                            <li><a href="#">Automotive</a></li>
+                            <li><a href="#">Beauty & Spas</a></li>
+                            <li><a href="#">Education</a></li>
+                            <li><a href="#">Event Planning & Services</a></li>
+                            <li><a href="#">Health & Medical</a></li>
+                            <li><a href="#">Home Services</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputFile">Upload an Image</label>
