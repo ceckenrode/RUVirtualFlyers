@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group">
                     <label for="locationPhoneNumber">Phone Number</label>
-                    <input type="text" class="form-control" id="locationPhoneNumber" placeholder="Phone Number" name="phone">
+                    <input class="form-control bfh-phone" data-format="+1 (ddd) ddd-dddd" type="text" id="locationPhoneNumber" name="phone">
                 </div>
                 <div class="form-group">
                     <label for="locationDescription">Enter a Description</label>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="form-group">
                 <label for="locationCategory">Category</label>
-                <input type="hidden" name="category" id="category">
+                <input type="hidden" name="category" id="locationCategory">
                     <div class="dropdown category">
                         <button class="btn btn-default dropdown-toggle catbtn" type="button" data-toggle="dropdown">Category
                             <span class="caret"></span>
@@ -95,7 +95,7 @@
                     <label for="exampleInputFile">Upload an Image</label>
                     <input type="file" id="exampleInputFile" name="image">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default submit">Submit</button>
             </form>
         </div>
     </div>

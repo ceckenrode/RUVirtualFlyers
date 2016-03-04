@@ -166,7 +166,15 @@ var Places = connection.define('place', {
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
+    },
+    category: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
     }
+
 });
 
 var Ratings = connection.define('rating', {
@@ -238,43 +246,45 @@ app.get('/registered', function(req, res) {
 app.get('/rate', function(req, res) {
     res.render('rate', { msg: req.query.msg, user: req.user });
 
-app.post('/rate',function(req,res){
-    Ratings.create({
-        rating: req.body.rating,
-        userComment: req.body.textarea}).then(function(place){
-        res.redirect('/?msg=Rated');
-        }).catch(function(err){
-        res.redirect('/?msg='+ err.errors[0].message);
+    app.post('/rate', function(req, res) {
+        Ratings.create({
+            rating: req.body.rating,
+            userComment: req.body.textarea
+        }).then(function(place) {
+            res.redirect('/?msg=Rated');
+        }).catch(function(err) {
+            res.redirect('/?msg=' + err.errors[0].message);
         });
     });
 
 });
 
 Ratings.findAndCountAll({
-  where: {
-    rating: {
-      $ne: null
+    where: {
+        rating: {
+            $ne: null
 
+        }
     }
-  }
-}).then(function(result){
-  var denominator = result.count * 5;
+}).then(function(result) {
+    var denominator = result.count * 5;
 
-    Ratings.sum('rating').then(function (sum) {
-      var decimal = Math.round(sum *100 / denominator) / 100;
-      console.log(decimal);
-      console.log(sum);
-      console.log(denominator);
+    Ratings.sum('rating').then(function(sum) {
+        var decimal = Math.round(sum * 100 / denominator) / 100;
+        console.log(decimal);
+        console.log(sum);
+        console.log(denominator);
 
     });
-  
-  });
+
+});
 
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
 
 app.post('/submitlocation', upload.single('image'), function(req, res) {
+    if (req.file !== undefined) {
     var imgpath = req.file.path;
     var newurl = [];
     for (var i = 7; i < imgpath.length; ++i) {
@@ -287,10 +297,23 @@ app.post('/submitlocation', upload.single('image'), function(req, res) {
         address: req.body.address,
         phoneNumber: req.body.phone,
         description: req.body.description,
-        image: newurl
+        image: newurl,
+        category: req.body.category
     }).then(function() {
         res.redirect('/feed');
     });
+} else {
+    Places.create({
+        place: req.body.name,
+        address: req.body.address,
+        phoneNumber: req.body.phone,
+        description: req.body.description,
+        image: 'uploads/placehold.png',
+        category: req.body.category
+    }).then(function() {
+        res.redirect('/feed');
+    });
+}
 });
 
 app.get('/index', function(req, res) {
@@ -309,55 +332,44 @@ app.get('/logout', function(req, res) {
 app.get('/imgtest', function(req, res) {
     res.render('imgtest');
 });
-app.post('/submitlocal', upload.single('image'), function(req, res, next) {
-    var imgpath = req.file.path;
-    var newurl = [];
-    for (var i = 7; i < imgpath.length; ++i) {
-        newurl.push(imgpath[i]);
-    }
-    newurl = newurl.join('');
-    console.log(newurl);
-
-    res.redirect('/');
-});
 
 app.get('/location/:category', function(req, res) {
-  Places.findAll({
-    where: {
-      category: req.params.category
-    }
-  }).then(function(locations){
-    res.render('testlocation', { locations: locations });
-  });
+    Places.findAll({
+        where: {
+            category: req.params.category
+        }
+    }).then(function(locations) {
+        res.render('testlocation', { locations: locations });
+    });
 });
 
 app.get('/alllocations', function(req, res) {
-  Places.findAll({
-    where: {
-      id: {
-      $ne: null
-      }
-    }
-  }).then(function(alllocations){
-    res.render('alllocations', { alllocations: alllocations });
-  });
+    Places.findAll({
+        where: {
+            id: {
+                $ne: null
+            }
+        }
+    }).then(function(alllocations) {
+        res.render('alllocations', { alllocations: alllocations });
+    });
 });
 
 app.get('/usersreview', function(req, res) {
-  var theirs = {};
-  if(req.user) {
-    theirs = {
-      where: {
-        userId: req.user.id
-      }
-    };
-  }
-  Ratings.findAll(theirs).then(function(reviews){
-    res.render('userreviews', {
-       reviews: reviews
-      });
+    var theirs = {};
+    if (req.user) {
+        theirs = {
+            where: {
+                userId: req.user.id
+            }
+        };
+    }
+    Ratings.findAll(theirs).then(function(reviews) {
+        res.render('userreviews', {
+            reviews: reviews
+        });
     });
-  });
+});
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
