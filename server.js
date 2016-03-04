@@ -210,20 +210,16 @@ Ratings.findAndCountAll({
   }
 }).then(function(result){
   var denominator = result.count * 5;
-  console.log(denominator);
-}).then(Ratings.sum('rating')).then(function(sum) {
-var decimal = sum % denominator;
-console.log(decimal);
-});
 
+    Ratings.sum('rating').then(function (sum) {
+      var decimal = Math.round(sum *100 / denominator) / 100;
+      console.log(decimal);
+      console.log(sum);
+      console.log(denominator);
 
-// Ratings.sum('rating').then(function(sum) {
-// var decimal = sum % denominator;
-// console.log(deciaml);
-// });
-
-
-
+    });
+  
+  });
 // .then(Ratings.sum(rating)).
 
 app.get('/submitlocation', function(req, res) {
