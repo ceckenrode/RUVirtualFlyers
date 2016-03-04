@@ -17,13 +17,13 @@ var storage = multer.diskStorage({
     },
     filename: function(req, file, cb) {
         var num;
-            Places.findAndCountAll().then(function(result) {
-                num = result.count + 1;
-            }).then(function(){
-                cb(null, "image" + num + "." + (file.mimetype).split('/')[1])
-            })
+        Places.findAndCountAll().then(function(result) {
+            num = result.count + 1;
+        }).then(function() {
+            cb(null, "image" + num + "." + (file.mimetype).split('/')[1])
+        })
 
-        
+
     }
 })
 
