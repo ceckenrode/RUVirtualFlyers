@@ -237,11 +237,13 @@ app.get('/registered', function(req, res) {
 app.get('/rate', function(req, res) {
     res.render('rate', { msg: req.query.msg, user: req.user });
 
-    app.post('/rate', function(req, res) {
-        Ratings.create(req.body).then(function(place) {
-            res.redirect('/?msg=Rated');
-        }).catch(function(err) {
-            res.redirect('/?msg=' + err.errors[0].message);
+app.post('/rate',function(req,res){
+    Ratings.create({
+        rating: req.body.rating,
+        userComment: req.body.textarea}).then(function(place){
+        res.redirect('/?msg=Rated');
+        }).catch(function(err){
+        res.redirect('/?msg='+ err.errors[0].message);
         });
     });
 
