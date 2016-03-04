@@ -246,6 +246,27 @@ app.get('/rate', function(req, res) {
     });
 
 });
+
+Ratings.findAndCountAll({
+  where: {
+    rating: {
+      $ne: null
+
+    }
+  }
+}).then(function(result){
+  var denominator = result.count * 5;
+
+    Ratings.sum('rating').then(function (sum) {
+      var decimal = Math.round(sum *100 / denominator) / 100;
+      console.log(decimal);
+      console.log(sum);
+      console.log(denominator);
+
+    });
+  
+  });
+
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
