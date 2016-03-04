@@ -203,8 +203,8 @@ var Images = connection.define('image', {
 });
 
 
-Ratings.belongsTo(Places);
-Images.belongsTo(Places);
+Places.hasMany(Ratings);
+Users.hasMany(Ratings);
 
 app.get('/', function(req, res) {
     res.render('home', { msg: req.query.msg, user: req.user });
@@ -237,15 +237,38 @@ app.get('/registered', function(req, res) {
 app.get('/rate', function(req, res) {
     res.render('rate', { msg: req.query.msg, user: req.user });
 
-    app.post('/rate', function(req, res) {
-        Ratings.create(req.body).then(function(place) {
-            res.redirect('/?msg=Rated');
-        }).catch(function(err) {
-            res.redirect('/?msg=' + err.errors[0].message);
+app.post('/rate',function(req,res){
+    Ratings.create({
+        rating: req.body.rating,
+        userComment: req.body.textarea}).then(function(place){
+        res.redirect('/?msg=Rated');
+        }).catch(function(err){
+        res.redirect('/?msg='+ err.errors[0].message);
         });
     });
 
 });
+
+Ratings.findAndCountAll({
+  where: {
+    rating: {
+      $ne: null
+
+    }
+  }
+}).then(function(result){
+  var denominator = result.count * 5;
+
+    Ratings.sum('rating').then(function (sum) {
+      var decimal = Math.round(sum *100 / denominator) / 100;
+      console.log(decimal);
+      console.log(sum);
+      console.log(denominator);
+
+    });
+  
+  });
+
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
@@ -297,10 +320,43 @@ app.post('/submitlocal', upload.single('image'), function(req, res, next) {
     res.redirect('/');
 });
 
-app.get('/location/:id', function(req, res) {
-    res.render('location');
+app.get('/location/:category', function(req, res) {
+  Places.findAll({
+    where: {
+      category: req.params.category
+    }
+  }).then(function(locations){
+    res.render('testlocation', { locations: locations });
+  });
 });
 
+app.get('/alllocations', function(req, res) {
+  Places.findAll({
+    where: {
+      id: {
+      $ne: null
+      }
+    }
+  }).then(function(alllocations){
+    res.render('alllocations', { alllocations: alllocations });
+  });
+});
+
+app.get('/usersreview', function(req, res) {
+  var theirs = {};
+  if(req.user) {
+    theirs = {
+      where: {
+        userId: req.user.id
+      }
+    };
+  }
+  Ratings.findAll(theirs).then(function(reviews){
+    res.render('userreviews', {
+       reviews: reviews
+      });
+    });
+  });
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
