@@ -17,13 +17,13 @@ var storage = multer.diskStorage({
     },
     filename: function(req, file, cb) {
         var num;
-            Places.findAndCountAll().then(function(result) {
-                num = result.count + 1;
-            }).then(function(){
-                cb(null, "image" + num + "." + (file.mimetype).split('/')[1])
-            })
+        Places.findAndCountAll().then(function(result) {
+            num = result.count + 1;
+        }).then(function() {
+            cb(null, "image" + num + "." + (file.mimetype).split('/')[1])
+        })
 
-        
+
     }
 })
 
@@ -49,6 +49,7 @@ app.use(session({
 app.use("/js", express.static("public/js"));
 app.use("/css", express.static("public/css"));
 app.use("/images", express.static("public/images"));
+app.use("/uploads", express.static("public/uploads"));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -165,7 +166,15 @@ var Places = connection.define('place', {
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
+    },
+    category: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
     }
+
 });
 
 var Ratings = connection.define('rating', {
@@ -203,8 +212,8 @@ var Images = connection.define('image', {
 });
 
 
-Ratings.belongsTo(Places);
-Images.belongsTo(Places);
+Places.hasMany(Ratings);
+Users.hasMany(Ratings);
 
 app.get('/', function(req, res) {
     res.render('home', { msg: req.query.msg, user: req.user });
@@ -227,7 +236,10 @@ app.get('/home', function(req, res) {
     res.render('home', { user: req.user });
 });
 app.get('/feed', function(req, res) {
-    res.render('feed', { user: req.user });
+    
+    Places.findAll().then(function(places) {
+  res.render('feed', { user: req.user, places: places });
+})
 });
 
 app.get('/registered', function(req, res) {
@@ -238,7 +250,10 @@ app.get('/rate', function(req, res) {
     res.render('rate', { msg: req.query.msg, user: req.user });
 
     app.post('/rate', function(req, res) {
-        Ratings.create(req.body).then(function(place) {
+        Ratings.create({
+            rating: req.body.rating,
+            userComment: req.body.textarea
+        }).then(function(place) {
             res.redirect('/?msg=Rated');
         }).catch(function(err) {
             res.redirect('/?msg=' + err.errors[0].message);
@@ -246,11 +261,33 @@ app.get('/rate', function(req, res) {
     });
 
 });
+
+Ratings.findAndCountAll({
+    where: {
+        rating: {
+            $ne: null
+
+        }
+    }
+}).then(function(result) {
+    var denominator = result.count * 5;
+
+    Ratings.sum('rating').then(function(sum) {
+        var decimal = Math.round(sum * 100 / denominator) / 100;
+        console.log(decimal);
+        console.log(sum);
+        console.log(denominator);
+
+    });
+
+});
+
 app.get('/submitlocation', function(req, res) {
     res.render('submitlocation', { msg: req.query.msg, user: req.user });
 });
 
 app.post('/submitlocation', upload.single('image'), function(req, res) {
+    if (req.file !== undefined) {
     var imgpath = req.file.path;
     var newurl = [];
     for (var i = 7; i < imgpath.length; ++i) {
@@ -263,10 +300,23 @@ app.post('/submitlocation', upload.single('image'), function(req, res) {
         address: req.body.address,
         phoneNumber: req.body.phone,
         description: req.body.description,
-        image: newurl
+        image: newurl,
+        category: req.body.category
     }).then(function() {
         res.redirect('/feed');
     });
+} else {
+    Places.create({
+        place: req.body.name,
+        address: req.body.address,
+        phoneNumber: req.body.phone,
+        description: req.body.description,
+        image: 'uploads/placehold.png',
+        category: req.body.category
+    }).then(function() {
+        res.redirect('/feed');
+    });
+}
 });
 
 app.get('/index', function(req, res) {
@@ -285,22 +335,44 @@ app.get('/logout', function(req, res) {
 app.get('/imgtest', function(req, res) {
     res.render('imgtest');
 });
-app.post('/submitlocal', upload.single('image'), function(req, res, next) {
-    var imgpath = req.file.path;
-    var newurl = [];
-    for (var i = 7; i < imgpath.length; ++i) {
-        newurl.push(imgpath[i]);
+
+app.get('/location/:category', function(req, res) {
+    Places.findAll({
+        where: {
+            category: req.params.category
+        }
+    }).then(function(locations) {
+        res.render('testlocation', { locations: locations });
+    });
+});
+
+app.get('/alllocations', function(req, res) {
+    Places.findAll({
+        where: {
+            id: {
+                $ne: null
+            }
+        }
+    }).then(function(alllocations) {
+        res.render('alllocations', { alllocations: alllocations });
+    });
+});
+
+app.get('/usersreview', function(req, res) {
+    var theirs = {};
+    if (req.user) {
+        theirs = {
+            where: {
+                userId: req.user.id
+            }
+        };
     }
-    newurl = newurl.join('');
-    console.log(newurl);
-
-    res.redirect('/');
+    Ratings.findAll(theirs).then(function(reviews) {
+        res.render('userreviews', {
+            reviews: reviews
+        });
+    });
 });
-
-app.get('/location/:id', function(req, res) {
-    res.render('location');
-});
-
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
