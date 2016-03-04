@@ -130,7 +130,15 @@ var Places = connection.define ('place',{
      allowNull: true,    
      updatedAt: 'last_update',   
      createdAt: 'date_of_creation'   
-    }    
+    },
+
+   category: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: true,
+        updatedAt: 'last_update',
+        createdAt: 'date_of_creation'
+    } 
 });
 
 var Ratings = connection.define('rating', {
@@ -147,14 +155,8 @@ var Ratings = connection.define('rating', {
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
-    },
-    category: {
-        type: Sequelize.STRING,
-        unique: false,
-        allowNull: true,
-        updatedAt: 'last_update',
-        createdAt: 'date_of_creation'
     }
+   
 });
 
 // Ratings.belongsTo(Places, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
@@ -231,22 +233,13 @@ app.post('/submitlocation', function(req, res) {
           place: req.body.name,
           address: req.body.address,
           phoneNumber: req.body.phone,
-          description: req.body.description}).then(Images.create(req.body.image)).then(function(x){
+          description: req.body.description,
+          category: req.body.category}).then(function(x){
             res.redirect('/feed');
        }).catch(function(err){
          res.redirect('/?msg='+ 'nope');
   });
 });
-
-
-// app.get('/testlocation',function(req,res){
-//   Places.findAll({}).then (Images.findOne({
-
-
-//     function(results){
-//     res.render('testlocation',{results});
-//   });
-// });
 
 app.get('/index', function(req, res) {
     res.render('index');
@@ -261,15 +254,45 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/location/:id', function(req, res) {
-  res.render('location');
-
+app.get('/location/:category', function(req, res) {
+  Places.findAll({
+    where: {
+      category: req.params.category
+    }
+  }).then(function(locations){
+    res.render('testlocation', { locations: locations });
+  });
 });
 
+app.get('/alllocations', function(req, res) {
+  Places.findAll({
+    where: {
+      id: {
+      $ne: null
+      }
+    }
+  }).then(function(alllocations){
+    res.render('alllocations', { alllocations: alllocations });
+  });
+});
 
-// app.post('/submitlocation', function(req, res) {
-//     res.redirect('/feed');
-// });
+app.get('/usersreview', function(req, res) {
+  var theirs = {};
+  if(req.user) {
+    theirs = {
+      where: {
+        userId: req.user.id
+      }
+    };
+  }
+  Ratings.findAll(theirs).then(function(reviews){
+    res.render('userreviews', {
+       reviews: reviews
+      });
+    });
+  });
+
+
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
