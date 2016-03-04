@@ -203,8 +203,8 @@ var Images = connection.define('image', {
 });
 
 
-Ratings.belongsTo(Places);
-Images.belongsTo(Places);
+Places.hasMany(Ratings);
+Users.hasMany(Ratings);
 
 app.get('/', function(req, res) {
     res.render('home', { msg: req.query.msg, user: req.user });
