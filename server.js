@@ -320,10 +320,43 @@ app.post('/submitlocal', upload.single('image'), function(req, res, next) {
     res.redirect('/');
 });
 
-app.get('/location/:id', function(req, res) {
-    res.render('location');
+app.get('/location/:category', function(req, res) {
+  Places.findAll({
+    where: {
+      category: req.params.category
+    }
+  }).then(function(locations){
+    res.render('testlocation', { locations: locations });
+  });
 });
 
+app.get('/alllocations', function(req, res) {
+  Places.findAll({
+    where: {
+      id: {
+      $ne: null
+      }
+    }
+  }).then(function(alllocations){
+    res.render('alllocations', { alllocations: alllocations });
+  });
+});
+
+app.get('/usersreview', function(req, res) {
+  var theirs = {};
+  if(req.user) {
+    theirs = {
+      where: {
+        userId: req.user.id
+      }
+    };
+  }
+  Ratings.findAll(theirs).then(function(reviews){
+    res.render('userreviews', {
+       reviews: reviews
+      });
+    });
+  });
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {
