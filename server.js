@@ -150,7 +150,7 @@ var Ratings = connection.define('rating', {
         createdAt: 'date_of_creation'
     },
     userComment: {
-        type: Sequelize.STRING(65, 535),
+        type: Sequelize.STRING(65,535),
         unique: false,
         allowNull: true,
         updatedAt: 'last_update',
@@ -160,8 +160,8 @@ var Ratings = connection.define('rating', {
 });
 
 // Ratings.belongsTo(Places, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
-Ratings.belongsTo(Places);
-
+Places.hasMany(Ratings);
+Users.hasMany(Ratings);
 
 // images.belongsTo(Places);
 
@@ -292,7 +292,17 @@ app.get('/usersreview', function(req, res) {
     });
   });
 
-
+app.get('/location/single/:id', function(req, res) {
+  Places.findOne({
+    where: {
+      id: req.params.id 
+    }
+  }).then(function(onelocation){
+    res.render('onelocation', {
+      onelocation: onelocation
+    });
+  });
+});
 
 // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
 connection.sync().then(function() {

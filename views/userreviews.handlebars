@@ -1,0 +1,15 @@
+<h1>{{username}}'s reviews</h1>
+<div class="col-md-5">
+  <table class="table table-bordered">
+  {{each reviews}}
+    <tr>
+      <td>
+        {{rating}}
+      </td>
+       <td>
+        {{userComment}}
+      </td>
+    </tr>
+  {{/each}}
+  </table>
+</div>
