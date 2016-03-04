@@ -51,15 +51,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9" id="mainPanel">
+        {{#each places}}
             <div class="panel panel-default box-shadow--4dp">
                 <div class="panel-heading">
-                    <a href="/location"><h5>Bucket & Bay Craft Gelato</h5></a>
+                    <a href="/location/{{this.place}}"><h5>{{this.place}}</h5></a>
                 </div>
                 <div class="panel-body">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-2">
-                                <a href="/location"><img class="img-responsive" src="http://placehold.it/140x100"></a>
+                                <a href="/location/{{this.place}}"><img class="img-responsive" width="200" height="200" src="{{this.image}}"></a>
                             </div>
                             <div class="col-md-2">
                                 <i class="fa fa-star"></i>
@@ -71,22 +72,14 @@
                                 <p>$ Gelato, Coffee & Tea, Ice Cream & Frozen Yogurt</p>
                             </div>
                             <div class="col-md-2">
-                                <p>150 Bay St</p>
-                                <p>Jersey City, NJ 07302</p>
-                                <p>(201) 503-5588</p>
+                                <p>{{this.address}}</p>
+                                <p>{{this.phoneNumber}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default box-shadow--4dp">
-                <div class="panel-heading">
-                    <h5>Bucket & Bay Craft Gelato</h5>
-                </div>
-                <div class="panel-body">
-                    Panel content
-                </div>
-            </div>
+            {{/each}}
         </div>
         <div class="col-md-3" id="mainPanel">
             <div class="list-group box-shadow--4dp">

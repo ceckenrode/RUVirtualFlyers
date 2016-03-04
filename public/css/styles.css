@@ -159,8 +159,8 @@ footer {
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
     z-index: 2;
     color: #ffffff;
-    background-color: #754F38;
-    border-color: #01579B;
+    background-color: #622824;
+    border-color: #622824;
 }
 .btn-success {
     color: #ffffff;
@@ -173,7 +173,7 @@ footer {
 }
 .panel .panel-heading {
   z-index: 2;
-  background-color: #754F38;
+  background-color: #622824;
   border-color: #01579B;
   text-align: center;
 }

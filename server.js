@@ -236,7 +236,10 @@ app.get('/home', function(req, res) {
     res.render('home', { user: req.user });
 });
 app.get('/feed', function(req, res) {
-    res.render('feed', { user: req.user });
+    
+    Places.findAll().then(function(places) {
+  res.render('feed', { user: req.user, places: places });
+})
 });
 
 app.get('/registered', function(req, res) {
