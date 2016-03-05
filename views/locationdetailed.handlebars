@@ -52,18 +52,18 @@
     <div class="row">
         <div class="col-md-9" id="mainPanel">
         {{#if emptymsg}}
-            <h3>{{emptymsg}} <a href="/submitlocation">here.</a></h3>
+            <h3>{{emptymsg}} {{#if user}}You can submit a new location here <a href="/submitlocation">here.</a></h3>{{/if}}
             {{/if}}
-        {{#each places}}
+            {{#if place}}
             <div class="panel panel-default box-shadow--4dp">
                 <div class="panel-heading">
-                    <a href="/location/{{this.id}}"><h5>{{this.place}}</h5></a>
+                    <a href="/feed/location/{{place.id}}"><h5>{{place.place}}</h5></a>
                 </div>
                 <div class="panel-body">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-2">
-                                <a href="/location/{{this.id}}"><img class="img-responsive" width="200" height="200" src="/{{this.image}}"></a>
+                                <a href="/feed/location/{{place.place}}"><img class="img-responsive" width="200" height="200" src="/{{place.image}}"></a>
                             </div>
                             <div class="col-md-2">
                                 <i class="fa fa-star"></i>
@@ -75,14 +75,14 @@
                                 <p>$ Gelato, Coffee & Tea, Ice Cream & Frozen Yogurt</p>
                             </div>
                             <div class="col-md-2">
-                                <p>{{this.address}}</p>
-                                <p>{{this.phoneNumber}}</p>
+                                <p>{{place.address}}</p>
+                                <p>{{place.phoneNumber}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {{/each}}
+            {{/if}}
         </div>
         <div class="col-md-3" id="mainPanel">
             <div class="list-group box-shadow--4dp">
