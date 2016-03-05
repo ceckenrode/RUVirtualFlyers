@@ -112,7 +112,33 @@
       </div>
       {{#if rating}}
         {{#each rating}}
-          {{this.userComment}}
+        <div class="panel panel-default box-shadow--4dp">
+                <div class="panel-heading">
+                    {{this.rating}}
+                </div>
+                <div class="panel-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a href="/feed/location/{{this.id}}"><img class="img-responsive" width="200" height="200" src="/{{this.image}}"></a>
+                            </div>
+                            <div class="col-md-2">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <p>109 Reviews</p>
+                                <p>$ Gelato, Coffee & Tea, Ice Cream & Frozen Yogurt</p>
+                            </div>
+                            <div class="col-md-2">
+                                <p>{{this.address}}</p>
+                                <p>{{this.phoneNumber}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {{/each}}
       {{/if}}
     </div>
