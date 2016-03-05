@@ -254,8 +254,7 @@ app.get('/feed', function(req, res) {
   Places.findAll().then(function(places) {
     res.render('feed', {
       user: req.user,
-      places: places,
-      all: true
+      places: places
     });
   })
 });
@@ -270,7 +269,7 @@ app.get('/feed/:category', function(req, res) {
       res.render('feed', {
         user: req.user,
         places: places,
-        emptymsg: "Nothing here yet, but submit a new location"
+        emptymsg: "There don't seem to be any submissions for this category yet."
       });
     } else {
       res.render('feed', {
