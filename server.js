@@ -200,6 +200,13 @@ var Ratings = connection.define('rating', {
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
+  },
+  username: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: false,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
 });
 
@@ -330,7 +337,8 @@ app.get('/feed/location/:locationid', function(req, res) {
             rating: req.body.rating,
             userComment: req.body.comment,
             userId: user.id,
-            placeId: req.body.placeId
+            placeId: req.body.placeId,
+            username: req.user.id
           }).then(function(){
             res.redirect('/feed');
           })
