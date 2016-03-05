@@ -178,7 +178,7 @@ footer {
   text-align: center;
 }
 
-.panel .panel-heading h5 {
+.panel .panel-heading *{
   color: white;
 }
 
@@ -198,4 +198,8 @@ footer {
 
 h4 {
   color: white;
+}
+
+a:hover {
+  text-decoration: none;
 }

@@ -13,6 +13,7 @@
             <ul class="nav navbar-nav">
                 {{#if user}}
                 <li class="active"><a href="/submitlocation">Submit a Location<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="/userreviews"> Your Reviews <span class="sr-only">(current)</span></a></li>
                 {{/if}}
             </ul>
             {{#if user}}
@@ -67,6 +68,10 @@
                 <div class="form-group">
                     <label for="locationDescription">Enter a Description</label>
                     <textarea maxlength="200" class="form-control" rows="5" id="locationDescription" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="locationKeywords"> Keywords </label>
+                    <textarea maxlength="20" class="form-control" rows="2" id="locationDescription" name="description"></textarea>
                 </div>
                 <div class="form-group">
                 <label for="locationCategory">Category</label>

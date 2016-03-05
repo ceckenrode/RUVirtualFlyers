@@ -13,6 +13,7 @@
       <ul class="nav navbar-nav">
         {{#if user}}
         <li class="active"><a href="/submitlocation">Submit a Location<span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="/userreviews"> Your Reviews <span class="sr-only">(current)</span></a></li>
         {{/if}}
       </ul>
       {{#if user}}
@@ -107,7 +108,32 @@
             </div>
           </div>
         </div>
+        {{/if}}
       </div>
+      {{#if rating}}
+        {{#each rating}}
+        <div class="panel panel-default box-shadow--4dp">
+                <div class="panel-heading reviewHead">
+                    <input type="hidden" name="userrating" class="rating" value='{{this.rating}}'>
+                </div>
+                <div class="panel-body">
+                    <div class="container">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                
+                                <h5>{{this.username}}</h5>
+                                <p>{{this.userComment}}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <h5>Visited At</h5>
+                                <p>{{this.updatedAt}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
       {{/if}}
     </div>
     <div class="col-md-3" id="mainPanel">

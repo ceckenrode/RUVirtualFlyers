@@ -182,8 +182,14 @@ var Places = connection.define('place', {
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
+  },
+    keywords: {
+    type: Sequelize.STRING(20),
+    unique: false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
-
 });
 
 var Ratings = connection.define('rating', {
@@ -198,6 +204,13 @@ var Ratings = connection.define('rating', {
     type: Sequelize.STRING(600),
     unique: false,
     allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
+  },
+  username: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: false,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
   }
@@ -241,6 +254,7 @@ app.get('/home', function(req, res) {
   res.render('home', {
     user: req.user
   });
+  console.log(req.user);
 });
 app.get('/feed', function(req, res) {
 
@@ -282,7 +296,21 @@ app.get('/feed/location/:locationid', function(req, res) {
         }
       }).then(function(place) {
         if (place !== null) {
-          res.render('locationdetailed', { user: req.user , place: place });
+          Ratings.findAll({
+            where: {
+              placeId: req.params.locationid
+            }
+          }).then(function(rating){
+            if (rating !== null){
+              console.log("req is" + req.params.locationid);
+              console.log("rating is" + rating);
+              res.render('locationdetailed', { user: req.user , place: place, rating: rating });
+            } else {
+              res.render('locationdetailed', { user: req.user , place: place });
+            }
+
+          })
+          
         } else {
           res.render('locationdetailed', { user: req.user , emptymsg: "There seems to have been an error, this place doesn't exist in our database." });
         }
@@ -296,26 +324,32 @@ app.get('/feed/location/:locationid', function(req, res) {
         });
       });
 
-      app.get('/rate', function(req, res) {
-        res.render('rate', {
-          msg: req.query.msg,
-          user: req.user
-        });
+      // app.get('/rate', function(req, res) {
+      //   res.render('rate', {
+      //     msg: req.query.msg,
+      //     user: req.user
+      //   });
 
-        app.post('/rate', function(req, res) {
+        
+
+      // });
+      app.post('/rate', function(req, res) {
+        Users.findOne({
+          where: {
+            username: req.user.id
+          }
+        }).then(function(user){
           Ratings.create({
             rating: req.body.rating,
             userComment: req.body.comment,
-            userId: req.user.id,
-            placeId: req.body.placeId
-          }).then(function(place) {
-            res.redirect('/?msg=Rated');
-          }).catch(function(err) {
-            res.redirect('/?msg=' + err.errors[0].message);
-          });
+            userId: user.id,
+            placeId: req.body.placeId,
+            username: req.user.id
+          }).then(function(){
+            res.redirect('/feed');
+          })
+        })
         });
-
-      });
 
       Ratings.findAndCountAll({
         where: {
