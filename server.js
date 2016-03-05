@@ -342,7 +342,7 @@ app.post('/rate', function(req, res) {
             userComment: req.body.comment,
             userId: user.id,
             placeId: req.body.placeId,
-            username: req.user.id
+            username: user.username
         }).then(function() {
             res.redirect('/feed');
         })
