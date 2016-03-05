@@ -302,9 +302,7 @@ app.get('/feed/location/:locationid', function(req, res) {
                 }
             }).then(function(rating) {
                 if (rating !== null) {
-                    console.log("req is" + req.params.locationid);
-                    console.log("rating is" + rating);
-                    res.render('locationdetailed', { user: req.user, place: place, rating: rating });
+                    res.render('locationdetailed', { user: req.user, place: place, rating: rating, numReviews: rating.length });
                 } else {
                     res.render('locationdetailed', { user: req.user, place: place });
                 }
