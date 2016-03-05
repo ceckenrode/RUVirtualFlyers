@@ -182,6 +182,13 @@ var Places = connection.define('place', {
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
+  },
+    keywords: {
+    type: Sequelize.STRING(20),
+    unique: false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
 });
 

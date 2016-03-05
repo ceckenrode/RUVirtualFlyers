@@ -199,3 +199,7 @@ footer {
 h4 {
   color: white;
 }
+
+a:hover {
+  text-decoration: none;
+}
