@@ -108,7 +108,12 @@
             </div>
           </div>
         </div>
+        {{/if}}
       </div>
+      {{#if rating}}
+        {{#each rating}}
+          {{this.userComment}}
+        {{/each}}
       {{/if}}
     </div>
     <div class="col-md-3" id="mainPanel">

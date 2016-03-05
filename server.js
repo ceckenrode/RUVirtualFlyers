@@ -241,6 +241,7 @@ app.get('/home', function(req, res) {
   res.render('home', {
     user: req.user
   });
+  console.log(req.user);
 });
 app.get('/feed', function(req, res) {
 
@@ -282,7 +283,21 @@ app.get('/feed/location/:locationid', function(req, res) {
         }
       }).then(function(place) {
         if (place !== null) {
-          res.render('locationdetailed', { user: req.user , place: place });
+          Ratings.findAll({
+            where: {
+              placeId: req.params.locationid
+            }
+          }).then(function(rating){
+            if (rating !== null){
+              console.log("req is" + req.params.locationid);
+              console.log("rating is" + rating);
+              res.render('locationdetailed', { user: req.user , place: place, rating: rating });
+            } else {
+              res.render('locationdetailed', { user: req.user , place: place });
+            }
+
+          })
+          
         } else {
           res.render('locationdetailed', { user: req.user , emptymsg: "There seems to have been an error, this place doesn't exist in our database." });
         }
@@ -306,16 +321,20 @@ app.get('/feed/location/:locationid', function(req, res) {
 
       // });
       app.post('/rate', function(req, res) {
+        Users.findOne({
+          where: {
+            username: req.user.id
+          }
+        }).then(function(user){
           Ratings.create({
             rating: req.body.rating,
             userComment: req.body.comment,
-            userId: req.user.id,
+            userId: user.id,
             placeId: req.body.placeId
-          }).then(function(place) {
-            res.redirect('/?msg=Rated');
-          }).catch(function(err) {
+          }).then(function(){
             res.redirect('/feed');
-          });
+          })
+        })
         });
 
       Ratings.findAndCountAll({
