@@ -182,9 +182,16 @@ var Places = connection.define('place', {
     allowNull: true,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
+  },
+  keywords: {
+    type: Sequelize.ENUM,
+    unique: false,
+    allowNull: true,
+    updatedAt: 'last_update',
+    createdAt: 'date_of_creation'
   }
 
-});
+  });
 
 var Ratings = connection.define('rating', {
   rating: {
