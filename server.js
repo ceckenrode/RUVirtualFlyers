@@ -404,6 +404,26 @@ app.get('/feed/location/:locationid', function(req, res) {
           });
         });
       });
+      
+      
+      app.post('/userreviewedit/:id', function(req, res) {
+  
+  Ratings.update({
+    rating : req.body.rating,
+    userComment : req.body.textarea
+  },
+  {
+    where:
+    {id : req.params.id}
+    }).then(function(userupdate) {
+      res.redirect('/?msg=rating edited');
+      }).catch(function(err) {
+    console.log(err);
+    res.redirect('/?msg=' + err.message);
+  });
+});
+ 
+
 
       // force: true is for testing temporary data, could potentially wipe out an existing database once we create the official ones, so it will have to be removed at that point
       connection.sync().then(function() {
