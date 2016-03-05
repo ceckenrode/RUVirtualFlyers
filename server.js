@@ -195,16 +195,9 @@ var Ratings = connection.define('rating', {
     createdAt: 'date_of_creation'
   },
   userComment: {
-    type: Sequelize.STRING(65, 535),
+    type: Sequelize.STRING(600),
     unique: false,
     allowNull: true,
-    updatedAt: 'last_update',
-    createdAt: 'date_of_creation'
-  },
-  category: {
-    type: Sequelize.STRING,
-    unique: false,
-    allowNull: false,
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
   }
