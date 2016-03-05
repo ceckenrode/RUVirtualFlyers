@@ -178,7 +178,7 @@ footer {
   text-align: center;
 }
 
-.panel .panel-heading h5 {
+.panel .panel-heading *{
   color: white;
 }
 

@@ -34,5 +34,14 @@ $(document).ready(function() {
     $('#five').removeClass('fa-star-o').addClass('fa-star');
     $('#rating').val(5);
   });
+
+  $('.reviewHead').each(function(index, el) {
+    var stars = $(this).children('input').val();
+    $(this).empty();
+
+     for (var i = 0; i < stars; i++) {
+       $(this).append("<i class='fa fa-star'></i>")
+     }
+  });
   
 });

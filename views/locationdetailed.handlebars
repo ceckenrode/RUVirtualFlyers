@@ -113,26 +113,21 @@
       {{#if rating}}
         {{#each rating}}
         <div class="panel panel-default box-shadow--4dp">
-                <div class="panel-heading">
-                    {{this.rating}}
-                    <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
+                <div class="panel-heading reviewHead">
+                    <input type="hidden" name="userrating" class="rating" value='{{this.rating}}'>
                 </div>
                 <div class="panel-body">
                     <div class="container">
                         <div class="row">
                             
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 
-                                <p>109 Reviews</p>
+                                <h5>{{this.username}}</h5>
                                 <p>{{this.userComment}}</p>
                             </div>
                             <div class="col-md-2">
-                                <p>{{this.address}}</p>
-                                <p>{{this.phoneNumber}}</p>
+                                <h5>Visited At</h5>
+                                <p>{{this.updatedAt}}</p>
                             </div>
                         </div>
                     </div>
