@@ -195,7 +195,7 @@ var Places = connection.define('place', {
 var Ratings = connection.define('rating', {
     rating: {
         type: Sequelize.INTEGER,
-        unique: true,
+        unique: false,
         allowNull: true,
         updatedAt: 'last_update',
         createdAt: 'date_of_creation'
