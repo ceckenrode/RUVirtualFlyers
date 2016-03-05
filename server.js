@@ -183,7 +183,6 @@ var Places = connection.define('place', {
     updatedAt: 'last_update',
     createdAt: 'date_of_creation'
   }
-
 });
 
 var Ratings = connection.define('rating', {
