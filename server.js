@@ -305,7 +305,9 @@ app.get('/feed/location/:locationid', function(req, res) {
         app.post('/rate', function(req, res) {
           Ratings.create({
             rating: req.body.rating,
-            userComment: req.body.textarea
+            userComment: req.body.comment,
+            userId: req.user.id,
+            placeId: req.body.placeId
           }).then(function(place) {
             res.redirect('/?msg=Rated');
           }).catch(function(err) {
