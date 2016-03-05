@@ -238,7 +238,24 @@ app.get('/home', function(req, res) {
 app.get('/feed', function(req, res) {
     
     Places.findAll().then(function(places) {
-  res.render('feed', { user: req.user, places: places });
+  res.render('feed', { user: req.user, places: places, all: true });
+})
+});
+
+app.get('/feed/:category', function(req, res) {
+    console.log(req.params.category);
+    
+    Places.findAll({
+        where: {
+            category: req.params.category
+        }
+    }).then(function(places) {
+        if (places.length === 0) {
+            res.render('feed', { user: req.user, places: places, emptymsg: "Nothing here yet, but submit a new location" });
+        } else { 
+            res.render('feed', { user: req.user, places: places});
+        }
+  
 })
 });
 

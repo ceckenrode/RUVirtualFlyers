@@ -1,7 +1,9 @@
 $(document).ready(function() {
+
 $('.category ul li a').click(function(event) {
   $('.catbtn').text($(this).text());
-  $('#category').val($(this).text());
+  $('#locationCategory').val($(this).text());
+  console.log('saved');
 });
 
 $('.submit').click(function(event) {
