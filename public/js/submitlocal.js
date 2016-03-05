@@ -8,7 +8,9 @@ $('.category ul li a').click(function(event) {
 
 $('.submit').click(function(event) {
   if ($('#locationName').val() === '' || $('#locationAddress').val() === '' || $('#locationPhoneNumber').val() === '' ||
-    $('locationDescription').val() === '' || $('locationCategory').val() === '' || $('locationPhoneNumber').val() === "+1 ") {
+    $('#locationDescription').val() === '' || $('#locationCategory').val() === '' || $('#locationPhoneNumber').val() === "+1 " || 
+    $('#locationPhoneNumber').val().length !== 17 )
+  {
     bootbox.alert('You must complete all of the required fields before proceeding.');
   event.preventDefault();
   }
