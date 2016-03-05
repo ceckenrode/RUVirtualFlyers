@@ -209,7 +209,11 @@
 </div>
 <footer class="footer">
     <div class="container">
-        <img class="img-responsive middle" src="/images/citynight.svg">
+        {{#if user}} {{else}}
+        <p><a class="btn btn-primary btn-lg signup" data-toggle="modal" data-target="#myModal" role="button">Sign Up Now!</a></p>
+        {{/if}}
+        <br />
+        <img id="footer-img" class="img-responsive middle" src="/images/citynight.svg">
         <p>&copy; 2016 RU Virtual Flyers</p>
     </div>
 </footer>

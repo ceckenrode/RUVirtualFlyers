@@ -203,3 +203,7 @@ h4 {
 a:hover {
   text-decoration: none;
 }
+
+#footer-img {
+  width: 41%;
+}
