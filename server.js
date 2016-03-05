@@ -251,7 +251,9 @@ app.get('/feed/:category', function(req, res) {
         }
     }).then(function(places) {
         if (places.length === 0) {
-            res.render('feed', { user: req.user, places: places, all: true, emptymsg: "Nothing here yet, but submit a new location" });
+            res.render('feed', { user: req.user, places: places, emptymsg: "Nothing here yet, but submit a new location" });
+        } else { 
+            res.render('feed', { user: req.user, places: places});
         }
   
 })
