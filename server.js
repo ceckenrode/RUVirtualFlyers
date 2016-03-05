@@ -296,13 +296,16 @@ app.get('/feed/location/:locationid', function(req, res) {
         });
       });
 
-      app.get('/rate', function(req, res) {
-        res.render('rate', {
-          msg: req.query.msg,
-          user: req.user
-        });
+      // app.get('/rate', function(req, res) {
+      //   res.render('rate', {
+      //     msg: req.query.msg,
+      //     user: req.user
+      //   });
 
-        app.post('/rate', function(req, res) {
+        
+
+      // });
+      app.post('/rate', function(req, res) {
           Ratings.create({
             rating: req.body.rating,
             userComment: req.body.comment,
@@ -311,11 +314,9 @@ app.get('/feed/location/:locationid', function(req, res) {
           }).then(function(place) {
             res.redirect('/?msg=Rated');
           }).catch(function(err) {
-            res.redirect('/?msg=' + err.errors[0].message);
+            res.redirect('/feed');
           });
         });
-
-      });
 
       Ratings.findAndCountAll({
         where: {
